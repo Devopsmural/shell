@@ -1,0 +1,10 @@
+version: '2'
+services:
+ web:
+  image: "adamtravis/pyimg"
+  ports:
+  - "5000:5000"
+ redis:
+  image: "redis:alpine"
+  ports:
+  - "6379:6379"
