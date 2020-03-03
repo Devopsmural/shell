@@ -4,7 +4,7 @@ pipeline {
 
  stages
  {
-  stage('Build')
+  stage('Build') // Checkout Repo and build Docker Image for running code analysis
   {
   agent { label 'demo' }
    steps { 
@@ -17,7 +17,7 @@ pipeline {
    }
   }
   
-  stage('Generate Coverage')
+  stage('Generate Coverage') //Run unit test framework
   {
    agent { label 'demo' }
    steps { 
@@ -27,7 +27,7 @@ pipeline {
    }
   }
   
-  stage('Generate Deployment Image') 
+  stage('Generate Deployment Image') // Create Application Docker Image
   {
     agent { label 'demo' }
     steps{
@@ -43,11 +43,11 @@ pipeline {
     }
   }
 
-  stage('Smoke Test')
+  stage('Deploy App')
   {
     agent { label 'demo' }
     steps {
-      sh "echo test"
+      sh "/usr/bin/docker-compose up"
     }
   }
 
