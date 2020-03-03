@@ -1,0 +1,55 @@
+pipeline {
+
+ agent none
+
+ stages
+ {
+  stage('Build')
+  {
+  agent { label 'demo' }
+   steps { 
+      echo "Checkout Python Repo .."
+      git branch: 'master', url: '<<YOUR_GIT_URL_HERE>>'
+	  echo "Build Python Base Image for Coverage .."
+	  dir ("./proj") {
+	     sh "/usr/bin/docker build -t mycov:demo -f ./Dockerfile.pycov ."
+	  }
+   }
+  }
+  
+  stage('Generate Coverage')
+  {
+   agent { label 'demo' }
+   steps { 
+        dir ("./proj") {
+           sh "/usr/bin/docker --name democ -itd -v src:/home/demo mycov:demo sampleapp.py "
+		}
+   }
+  }
+  
+  stage('Generate Deployment Image') 
+  {
+    agent { label 'demo' }
+    steps{
+      script {
+          docker.withRegistry( 'https://registry.hub.docker.com', 'dockerhub' ) {
+             /* Build Docker Image locally */
+             myImage = docker.build("adamtravis/pyimg")
+
+             /* Push the container to the Registry */
+             myImage.push()
+          }
+      }
+    }
+  }
+
+  stage('Smoke Test')
+  {
+    agent { label 'demo' }
+    steps {
+      sh "chmod +x runsanity.sh; ./runsanity.sh adamtravis/testimg"
+    }
+  }
+
+ } //End of Stages
+} //End of Pipeline
