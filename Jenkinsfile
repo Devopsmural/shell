@@ -22,7 +22,7 @@ pipeline {
    agent { label 'demo' }
    steps { 
         dir ("./proj") {
-           sh "/usr/bin/docker --name democ -itd -v src:/home/demo mycov:demo sampleapp.py "
+           sh "/usr/bin/docker run --name democ -itd -v src:/home/demo mycov:demo src/sampleapp.py "
 		}
    }
   }
