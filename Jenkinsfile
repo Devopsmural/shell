@@ -22,7 +22,7 @@ pipeline {
    agent { label 'demo' }
    steps { 
         dir ("./proj") {
-           sh "/usr/bin/docker run --name democ -itd -v src:/home/demo mycov:demo src/sampleapp.py "
+           sh "/usr/bin/docker run --name democ -itd -v `pwd`/src:/home/demo mycov:demo nosetests -sv sampleapp.py --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml"
 		}
    }
   }
