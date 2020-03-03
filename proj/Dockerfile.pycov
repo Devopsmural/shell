@@ -1,4 +1,4 @@
-FROM python:3.4-alpine
+FROM python:rc-alpine3.10
 RUN pip install --upgrade pip
 RUN pip install nose coverage nosexcover pylint
 RUN mkdir /home/demo

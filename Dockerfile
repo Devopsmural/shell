@@ -1,4 +1,4 @@
-FROM python:3.4-alpine
+FROM python:rc-alpine3.10
 ADD ./proj/src/sampleapp.py /code/sampleapp.py
 ADD ./proj/requirements.txt /code/requirements.txt
 WORKDIR /code
