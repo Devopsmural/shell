@@ -27,6 +27,22 @@ pipeline {
    }
   }
   
+  stage('SonarQube Analysis') 
+  {
+    environment {
+        scannerHome = tool 'demoscanner'
+    }
+    agent { label 'demo' }
+    steps{
+     withSonarQubeEnv('mysonarqube') {
+      dir ("./proj") {
+       sh 'echo ${scannerHome}'
+       sh '${scannerHome}/bin/sonar-scanner'
+	  }
+     } 
+    }
+  }
+  
   stage('Generate Deployment Image') // Create Application Docker Image
   {
     agent { label 'demo' }
