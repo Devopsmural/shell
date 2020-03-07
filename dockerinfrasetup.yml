@@ -1,5 +1,5 @@
 ---
-- hosts: demo
+- hosts: all     # Since we are not using host file, keep the group as all #
   become: true
   tasks:
     - name: Update Cache # Update Cache on the container #
