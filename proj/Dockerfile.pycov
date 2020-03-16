@@ -1,0 +1,9 @@
+FROM python:rc-alpine3.10
+ADD requirements.txt requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+RUN pip install nose coverage nosexcover pylint
+RUN mkdir /home/demo
+WORKDIR /home/demo
+
+
